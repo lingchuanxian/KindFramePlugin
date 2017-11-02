@@ -1,0 +1,57 @@
+package $packageName;
+
+import android.util.Log;
+
+import javax.inject.Inject;
+
+import $package.base.BasePresenter;
+import $package.bean.HomeResult;
+import $package.bean.HomeSubmit;
+import $package.di.scope.ActivityScope;
+import $package.mvp.model.HomeTimelineModel;
+import $package.mvp.view.ViewContract;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+
+/**
+ * 公共的Operate类
+ * @author $author
+ * @date $date
+ */
+@ActivityScope
+public class $presenterName extends BasePresenter<$modelName,ViewContract.$viewName> {
+	private Disposable mDisposable;
+	@Inject
+	public $presenterName($modelName model, ViewContract.$viewName view) {
+		this.mModel = model;
+		this.mView = view;
+	}
+
+	public void HomeTimeline(HomeSubmit mSubmitParams,boolean update){
+		mModel.home_timeline(mSubmitParams,update)
+				.subscribe(new Observer<HomeResult>() {
+					@Override
+					public void onError(Throwable e) {
+						mView.requestFail(e.getMessage());
+					}
+
+					@Override
+					public void onComplete() {
+
+					}
+
+					@Override
+					public void onSubscribe(@NonNull Disposable d) {
+						mDisposable = d;
+					}
+
+					@Override
+					public void onNext(HomeResult result) {
+						Log.d(TAG, "onNext: "+result);
+						//mView.HomeTimelineViewSuccess(result);
+					}
+				});
+		addSubscribe(mDisposable);
+	}
+}

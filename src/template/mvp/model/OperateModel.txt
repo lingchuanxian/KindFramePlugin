@@ -1,0 +1,28 @@
+package $packageName;
+
+import $package.api.ApiEngine;
+import $package.api.RetryWithDelay;
+import $package.base.BaseModel;
+import $package.bean.SubmitParams;
+import $package.di.scope.ActivityScope;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+/**
+ * @author ling_cx
+ * @date 2017/8/8.
+ */
+@ActivityScope
+public class OperateModel implements BaseModel {
+
+	public Observable<String> operate(SubmitParams submitParams){
+		return ApiEngine.getInstance().getApiService()
+				.operate(submitParams.getTicket(), submitParams.getOperateType(), submitParams.getParaType(), submitParams.getParaInfo(), submitParams.getSoapJson())
+				.subscribeOn(Schedulers.io())
+				.unsubscribeOn(Schedulers.io())
+				.subscribeOn(AndroidSchedulers.mainThread())
+				.observeOn(AndroidSchedulers.mainThread())
+				.retryWhen(new RetryWithDelay(3,3000));
+	}
+}
