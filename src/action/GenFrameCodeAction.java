@@ -87,8 +87,8 @@ public class GenFrameCodeAction extends AnAction {
 		//proguard-rules
 		mPluginUtils.createFile("proguard-rules.txt","app","proguard-rules.pro");
 		//res
-		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/base_layout.txt","res/layout");
-		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/activity_home.xml","res/layout");
+		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/layout/base_layout.txt","res/layout");
+		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/layout/activity_home.txt","res/layout");
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/values/colors.xml","res/values");
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/values/styles.xml","res/values");
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/values/strings.xml","res/values");
