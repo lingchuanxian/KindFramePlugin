@@ -75,6 +75,9 @@ public class GenFrameCodeAction extends AnAction {
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"utils/AESUtil.txt","utils");
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"utils/SPUtils.txt","utils");
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"utils/StringUtil.txt","utils");
+		//ui
+		mPluginUtils.createFile(PluginUtils.FileType.Java,"ui/activity/HomeActivity.txt","ui/activity");
+
 		//widget
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"widget/ToolBarSet.txt","widget");
 		//gradle
@@ -85,9 +88,11 @@ public class GenFrameCodeAction extends AnAction {
 		mPluginUtils.createFile("proguard-rules.txt","app","proguard-rules.pro");
 		//res
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/base_layout.txt","res/layout");
+		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/activity_home.xml","res/layout");
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/values/colors.xml","res/values");
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/values/styles.xml","res/values");
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/values/strings.xml","res/values");
+
 
 		//mPluginUtils.createFile(new File(this.getClass().getClassLoader().getResource("/template/res/values/colors.xml").getPath()), new File(mProject.getBasePath() + "/app/src/main/res/values/colors.xml"));
 		//values && mipmap

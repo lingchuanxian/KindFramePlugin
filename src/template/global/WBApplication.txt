@@ -18,7 +18,10 @@ import $package.global.ActivityManager;
 
 public class WBApplication extends Application {
 	private static WBApplication instance;
-	private ActivityManager activityManager = null; // activity管理类
+	/**
+      *activity管理类
+      */
+	private ActivityManager activityManager = null;
 	@Override
 	public void onCreate() {
 		super.onCreate();
