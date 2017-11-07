@@ -24,12 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import $package.R;
 import $package.bean.SubmitParams;
-import $package.global.MoaApplication;
-import $package.ui.activity.LoginActivity;
-import $package.utils.NetUtils;
-import $package.utils.ToastUtil;
 import $package.widget.ToolBarSet;
-import cn.fjlcx.android.stateframelayout.StateAttr;
 import cn.fjlcx.android.stateframelayout.StateFrameLayout;
 
 /**
@@ -51,7 +46,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 	private Toolbar mToolbar;
 	private TextView mTvCenterTitle;
 	private ToolBarSet mToolBarSet;
-	public MoaApplication app;
 	public MaterialDialog progress;
 
 	public SubmitParams mSubmitParams = null;
@@ -143,7 +137,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 		if (!isPrepared || !isVisible || !isFirst) {
 			return;
 		}
-		if (NetUtils.isConnected(mContext)) {
+		if (NetworkUtils.isAvailableByPing()) {
 			Log.d(TAG, "initDataCounts: ");
 			initData();
 		} else {
@@ -192,17 +186,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 	@Override
 	public void operateFail(int code, final String message) {
 		progress.dismiss();
-		if (code == loginTimeOutCode) {
-			ToastUtil.show(mContext, getResources().getString(R.string.login_timeout));
-			Intent intent = new Intent(mContext, LoginActivity.class);
-			Bundle bundle = new Bundle();
-			bundle.putInt("logout", 1);
-			intent.putExtras(bundle);
-			startActivity(intent);
-			app.finishAllActivity();
-		} else {
-			ToastUtil.show(mContext, message);
-		}
+		ToastUtils.showShort(message);
 	}
 
 	/**
@@ -233,17 +217,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 		} else {
 			return null;
 		}
-	}
-
-	@Override
-	public void startActivity(Class<?> clz) {
-		Intent intent = new Intent(mContext, clz);
-		startActivity(intent);
-	}
-
-	@Override
-	public void startActivity(Class<?> clz, Bundle bundle) {
-
 	}
 
 	@Override

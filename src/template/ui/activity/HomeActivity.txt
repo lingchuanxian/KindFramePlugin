@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import $package.R;
-import cn.com.kind.dzxxmoa.base.BaseActivity;
+import $package.base.BaseActivity;
 
 
 /**

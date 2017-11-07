@@ -1,7 +1,7 @@
 package $packageName;
 
 import android.app.Application;
-
+import com.blankj.utilcode.util.Utils;
 import com.squareup.leakcanary.LeakCanary;
 
 import $package.di.component.AppComponent;
@@ -16,8 +16,8 @@ import $package.global.ActivityManager;
  * @date $date.
  */
 
-public class WBApplication extends Application {
-	private static WBApplication instance;
+public class AppContext extends Application {
+	private static AppContext instance;
 	/**
       *activity管理类
       */
@@ -29,10 +29,11 @@ public class WBApplication extends Application {
 		if (LeakCanary.isInAnalyzerProcess(this)) {
 			return;
 		}
+		Utils.init(this);
 		activityManager = ActivityManager.getInstance();
 	}
 
-	public static WBApplication getInstance() {
+	public static AppContext getInstance() {
 		return instance;
 	}
 

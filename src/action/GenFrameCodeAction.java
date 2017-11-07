@@ -67,7 +67,7 @@ public class GenFrameCodeAction extends AnAction {
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"di/scope/FragmentScope.txt","di/scope");
 		//global
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"global/Contants.txt","global");
-		mPluginUtils.createFile(PluginUtils.FileType.Java,"global/WBApplication.txt","global");
+		mPluginUtils.createFile(PluginUtils.FileType.Java,"global/AppContext.txt","global");
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"global/ActivityManager.txt","global");
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"global/RxFilter.txt","global");
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"global/RetryWithDelay.txt","global");
@@ -77,6 +77,7 @@ public class GenFrameCodeAction extends AnAction {
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"utils/StringUtil.txt","utils");
 		//ui
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"ui/activity/HomeActivity.txt","ui/activity");
+		mPluginUtils.createFile(PluginUtils.FileType.Java,"ui/fragment/IndexFragment.txt","ui/fragment");
 
 		//widget
 		mPluginUtils.createFile(PluginUtils.FileType.Java,"widget/ToolBarSet.txt","widget");
@@ -89,6 +90,7 @@ public class GenFrameCodeAction extends AnAction {
 		//res
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/layout/base_layout.txt","res/layout");
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/layout/activity_home.txt","res/layout");
+		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/layout/fragment_index.txt","res/layout");
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/values/colors.xml","res/values");
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/values/styles.xml","res/values");
 		mPluginUtils.createFile(PluginUtils.FileType.Xml,"res/values/strings.xml","res/values");

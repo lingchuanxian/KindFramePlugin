@@ -78,16 +78,21 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 	 * 判断是否需要检测，防止无限弹框申请权限
 	 */
 	private boolean isNeedCheckPermission = true;
-	/**
-	 * 沉浸式状态栏填充布局
+
+    /**
+	 *沉浸式状态栏管理器
 	 */
-	public LinearLayout mStatusBarFillLayout;
+	private SystemBarTintManager tintManager;
+	/**
+	 * 沉浸式状态栏颜色
+	 */
+	private final static int SystemBarColor = R.color.white;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(attachLayoutRes());
-		initState();
+		initStateBar();
 		ButterKnife.bind(this);
 		mNeedPermissions = getNeedPermissions();
 		checkPermissions(mNeedPermissions);
@@ -128,6 +133,49 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 		}
 	}
 
+    /**
+	 * 初始化沉浸式
+	 */
+	private void initStateBar() {
+		if (isNeedLoadStatusBar()) {
+			loadStateBar();
+		}
+	}
+
+	private void loadStateBar() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			setTranslucentStatus(true);
+		}
+		tintManager = new SystemBarTintManager(this);
+		// 激活状态栏设置
+		tintManager.setStatusBarTintEnabled(true);
+		// 激活导航栏设置
+		tintManager.setNavigationBarTintEnabled(true);
+		// 设置一个状态栏颜色
+		tintManager.setStatusBarTintResource(SystemBarColor);
+	}
+
+	@TargetApi(19)
+	private void setTranslucentStatus(boolean on) {
+		Window win = getWindow();
+		WindowManager.LayoutParams winParams = win.getAttributes();
+		final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+		if (on) {
+			winParams.flags |= bits;
+		} else {
+			winParams.flags &= ~bits;
+		}
+		win.setAttributes(winParams);
+	}
+
+	/**
+	 * 子类是否需要实现沉浸式,默认需要
+	 *
+	 * @return
+	 */
+	protected boolean isNeedLoadStatusBar() {
+		return true;
+	}
 
 	/**
 	 * 绑定布局文件
@@ -171,67 +219,72 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 	}
 
 	@Override
-	public void showData() {
-		if (mStateFrameLayout != null) {
-			mStateFrameLayout.showState(new StateOption()
-					.setState(StateOption.State.datas));
-		}
-	}
+    	public void showData() {
+    		if (mStateFrameLayout != null) {
+    			mStateFrameLayout.showState(new StateAttr.Builder()
+    					.setState(StateAttr.State.datas)
+    					.build()
+    			);
+    		}
+    	}
 
-	@Override
-	public void showLoding() {
-		if (mStateFrameLayout != null) {
-			mStateFrameLayout.showState(new StateOption()
-					.setState(StateOption.State.loading)
-					.setMessage("正在加载")
-					.setMessageSize(14)
-					.setMessageColor(R.color.state_text_color)
-			);
-		}
-	}
+    	@Override
+    	public void showLoding() {
+    		if (mStateFrameLayout != null) {
+    			mStateFrameLayout.showState(new StateAttr.Builder()
+    					.setState(StateAttr.State.loading)
+    					.setMessage("正在加载")
+    					.setMessageSize(14)
+    					.setMessageColor(R.color.state_text_color)
+    					.build()
+    			);
+    		}
+    	}
 
-	@Override
-	public void showNetError() {
-		if (mStateFrameLayout != null) {
-			mStateFrameLayout.showState(new StateOption()
-					.setState(StateOption.State.offline)
-					.setShowImage(true)
-					.setImageRes(R.mipmap.ic_net_error)
-					.setMessage(getResources().getString(R.string.state_offline))
-					.setMessageSize(14)
-					.setMessageColor(R.color.state_text_color)
-			);
-		}
-	}
+    	@Override
+    	public void showNetError() {
+    		if (mStateFrameLayout != null) {
+    			mStateFrameLayout.showState(new StateAttr.Builder()
+    					.setState(StateAttr.State.offline)
+    					.setShowImage(true)
+    					.setImageRes(R.mipmap.ic_net_error)
+    					.setMessage(getResources().getString(R.string.state_offline))
+    					.setMessageSize(14)
+    					.setMessageColor(R.color.state_text_color)
+    					.build()
+    			);
+    		}
+    	}
 
-	@Override
-	public void showErr(String err) {
-		if (mStateFrameLayout != null) {
-			mStateFrameLayout.showState(new StateOption()
-					.setState(StateOption.State.error)
-					.setShowImage(true)
-					.setImageRes(R.mipmap.ic_error)
-					.setMessage(err)
-					.setMessageSize(14)
-					.setMessageColor(R.color.state_text_color)
-			);
-		}
-	}
+    	@Override
+    	public void showErr(String err) {
+    		if (mStateFrameLayout != null) {
+    			mStateFrameLayout.showState(new StateAttr.Builder()
+    					.setState(StateAttr.State.error)
+    					.setShowImage(true)
+    					.setImageRes(R.mipmap.ic_error)
+    					.setMessage(err)
+    					.setMessageSize(14)
+    					.setMessageColor(R.color.state_text_color)
+    					.build()
+    			);
+    		}
+    	}
 
-	@Override
-	public void showNonData() {
-		if (mStateFrameLayout != null) {
-			mStateFrameLayout.showState(new StateOption()
-					.setState(StateOption.State.empty)
-					.setShowImage(true)
-					.setImageRes(R.mipmap.ic_empty)
-					.setMessage("暂无数据")
-					.setMessageSize(14)
-					.setMessageColor(R.color.state_text_color)
-			);
-		}
-	}
-
+    	@Override
+    	public void showNonData() {
+    		if (mStateFrameLayout != null) {
+    			mStateFrameLayout.showState(new StateAttr.Builder()
+    					.setState(StateAttr.State.empty)
+    					.setShowImage(true)
+    					.setImageRes(R.mipmap.ic_empty)
+    					.setMessage("暂无数据")
+    					.setMessageSize(14)
+    					.setMessageColor(R.color.state_text_color)
+    					.build()
+    			);
+    		}
+    	}
 
 	/**
 	 * 设置activity之间的切换动画
@@ -246,26 +299,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 	public void finish() {
 		super.finish();
 		//overridePendingTransition(R.anim.hold, R.anim.slide_right_exit);
-	}
-
-	/**
-	 * 动态的设置状态栏  实现沉浸式状态栏
-	 */
-	private void initState() {
-		//当系统版本为4.4或者4.4以上时可以使用沉浸式状态栏
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			//透明状态栏
-			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-			//透明导航栏
-			mStatusBarFillLayout = (LinearLayout) findViewById(R.id.status_bar_content);
-			mStatusBarFillLayout.setVisibility(View.VISIBLE);
-			//获取到状态栏的高度
-			int statusHeight = BarUtils.getStatusBarHeight();
-			//动态的设置隐藏布局的高度
-			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mStatusBarFillLayout.getLayoutParams();
-			params.height = statusHeight;
-			mStatusBarFillLayout.setLayoutParams(params);
-		}
 	}
 
 	/**
